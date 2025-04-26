@@ -1,8 +1,8 @@
 package com.security.springshield.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Pattern;
 
 @Entity
 @Table(name = "client_details")
@@ -22,16 +22,14 @@ public class UserDetail {
     private String lastName;
 
     @Column(name = "email", nullable = false)
-    @Email(message = "Email should be valid",
-            regexp = "[a-z0-9._+-]+@[a-z0-9.-]+\\.[a-z]{2,}",
-            flags = Pattern.Flag.CASE_INSENSITIVE
-    )
+    @Email(message = "Email should be valid")
     private String email;
 
     @Column(name = "status", nullable = false)
     private Boolean status;
 
     @OneToOne(mappedBy = "userDetails", cascade = CascadeType.ALL)
+    @JsonBackReference
     private User user;
 
     public UserDetail() {}

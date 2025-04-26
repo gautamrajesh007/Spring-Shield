@@ -1,7 +1,9 @@
 package com.security.springshield.security;
 
 import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ArgonPasswordHandler {
     private static final int saltLength = 16;
     private static final int hashLength = 32;

@@ -1,5 +1,6 @@
 package com.security.springshield.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import java.util.UUID;
 
@@ -13,6 +14,7 @@ public class User {
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "client_detail_id", nullable = false)
+    @JsonManagedReference
     private UserDetail userDetails;
 
     @Column(name = "email", nullable = false, unique = true)
