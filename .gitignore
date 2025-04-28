@@ -33,4 +33,4 @@ build/
 .vscode/
 
 ### Others ###
-/src/main/resources/config/.env
+/src/main/resources/config/db.env
