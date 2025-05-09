@@ -2,21 +2,13 @@
 --
 -- CREATE DATABASE spring_shield;
 
-CREATE TABLE client_details (
-    id BIGSERIAL,
-    first_name VARCHAR(255) NOT NULL,
-    middle_name VARCHAR(255),
-    last_name VARCHAR(255) NOT NULL,
-    email VARCHAR(255) NOT NULL,
-    status BOOLEAN NOT NULL,
-    PRIMARY KEY (id)
-);
-
-CREATE TABLE client (
-    client_id UUID DEFAULT gen_random_uuid() UNIQUE,
-    client_detail_id INTEGER NOT NULL,
-    email VARCHAR(255) NOT NULL,
+CREATE TABLE IF NOT EXISTS client (
+    client_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),  -- or use uuid_generate_v4() if not using pgcrypto
+    email VARCHAR(255) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
-    PRIMARY KEY (client_id),
-    FOREIGN KEY (client_detail_id) REFERENCES client_details(id)
+    first_name VARCHAR(100) NOT NULL,
+    middle_name VARCHAR(100),
+    last_name VARCHAR(100) NOT NULL,
+    secondary_email VARCHAR(255) NOT NULL,
+    status BOOLEAN NOT NULL
 );
