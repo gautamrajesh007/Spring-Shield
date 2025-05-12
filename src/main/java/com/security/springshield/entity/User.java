@@ -1,69 +1,60 @@
 package com.security.springshield.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 @Entity
-@Table(name = "client")
-public class User {
+@Table(name = "users")
+public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "client_id")
-    private UUID clientId;
+    @Column(name = "user_id", unique = true, nullable = false)
+    private UUID userId;
 
-    // Basic Auth Info
-    @Column(name = "email", nullable = false, unique = true)
+    @Column(unique = true, nullable = false)
     private String email;
 
-    @Column(name = "password", nullable = false)
+    @Column(nullable = false)
     private String password;
 
-    // Personal/Detail Info
-    @Column(name = "first_name", nullable = false)
-    private String firstName;
-
-    @Column(name = "middle_name")
-    private String middleName;
-
-    @Column(name = "last_name", nullable = false)
-    private String lastName;
-
-    @Column(name = "secondary_email", nullable = false)
-    @Email(message = "Email should be valid")
-    private String secondaryEmail;
-
-    @Column(name = "status", nullable = false)
-    private Boolean status;
+    // User Details
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private UserDetail userDetail;
 
     // Roles
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
         name = "user_roles",
-        joinColumns = @JoinColumn(name = "client_id"),
+        joinColumns = @JoinColumn(name = "user_id"),
         inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     private Set<Role> roles = new HashSet<>();
 
-    // Constructors
-    public User() {}
-
-    public User(String email, String password) {
-        this.email = email;
-        this.password = password;
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of();
     }
 
-    // Getters and Setters
-    public UUID getClientId() {
-        return clientId;
+    @Override
+    public String getUsername() {
+        return email;
     }
 
-    public void setClientId(UUID clientId) {
-        this.clientId = clientId;
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
+    public UUID getUserId() {
+        return userId;
+    }
+
+    public void setUserId(UUID userId) {
+        this.userId = userId;
     }
 
     public String getEmail() {
@@ -74,52 +65,16 @@ public class User {
         this.email = email;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
     public void setPassword(String password) {
         this.password = password;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public UserDetail getUserDetail() {
+        return userDetail;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getMiddleName() {
-        return middleName;
-    }
-
-    public void setMiddleName(String middleName) {
-        this.middleName = middleName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getSecondaryEmail() {
-        return secondaryEmail;
-    }
-
-    public void setSecondaryEmail(String secondaryEmail) {
-        this.secondaryEmail = secondaryEmail;
-    }
-
-    public Boolean getStatus() {
-        return status;
-    }
-
-    public void setStatus(Boolean status) {
-        this.status = status;
+    public void setUserDetail(UserDetail userDetail) {
+        this.userDetail = userDetail;
     }
 
     public Set<Role> getRoles() {

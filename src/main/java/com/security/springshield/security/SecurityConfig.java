@@ -13,7 +13,8 @@ public class SecurityConfig {
         http
             .csrf(AbstractHttpConfigurer::disable) // Disable CSRF for testing
             .authorizeHttpRequests(auth -> auth
-                .anyRequest().permitAll() // Allow all requests
+                    .requestMatchers("/**").permitAll() // Allow access to API endpoints
+                    .anyRequest().authenticated() // Require authentication for other endpoints
             )
             .formLogin(AbstractHttpConfigurer::disable) // Disable form login
             .httpBasic(AbstractHttpConfigurer::disable); // Disable basic auth

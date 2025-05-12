@@ -20,7 +20,7 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/")
+    @GetMapping
     public ResponseEntity<List<User>> getAllUsers() {
         return ResponseEntity.ok(userService.getAllUsers());
     }
@@ -39,7 +39,7 @@ public class UserController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @PostMapping("/")
+    @PostMapping
     public ResponseEntity<User> createUser(@RequestBody User user) {
         if (userService.existsByEmail(user.getEmail())) {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
@@ -54,7 +54,7 @@ public class UserController {
     ) {
         return userService.getUserById(id)
                 .map(existingUser -> {
-                    user.setClientId(id);
+                    user.setUserId(id);
                     return ResponseEntity.ok(userService.updateUser(user));
                 })
                 .orElse(ResponseEntity.notFound().build());

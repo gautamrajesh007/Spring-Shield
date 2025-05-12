@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/roles")
@@ -20,25 +21,25 @@ public class RoleController {
         this.roleService = roleService;
     }
 
-    @GetMapping("/")
+    @GetMapping
     public ResponseEntity<List<Role>> getAllRoles() {
         return ResponseEntity.ok(roleService.getAllRoles());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Role> getRoleById(@PathVariable Long id) {
+    public ResponseEntity<Role> getRoleById(@PathVariable UUID id) {
         return roleService.getRoleById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @PostMapping("/")
+    @PostMapping
     public ResponseEntity<Role> createRole(@RequestBody Role role) {
         return ResponseEntity.status(HttpStatus.CREATED).body(roleService.createRole(role));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Role> updateRole(@PathVariable Long id, @RequestBody Role role) {
+    public ResponseEntity<Role> updateRole(@PathVariable UUID id, @RequestBody Role role) {
         return roleService.getRoleById(id)
                 .map(existingRole -> {
                     role.setId(id);
@@ -48,7 +49,7 @@ public class RoleController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteRole(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteRole(@PathVariable UUID id) {
         if (roleService.getRoleById(id).isPresent()) {
             roleService.deleteRole(id);
             return ResponseEntity.noContent().build();

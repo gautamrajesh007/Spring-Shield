@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class RoleServiceImpl implements RoleService {
@@ -24,7 +25,7 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public Optional<Role> getRoleById(Long id) {
+    public Optional<Role> getRoleById(UUID id) {
         return roleRepository.findById(id);
     }
 
@@ -39,7 +40,7 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public void deleteRole(Long id) {
+    public void deleteRole(UUID id) {
         roleRepository.deleteById(id);
     }
 }
