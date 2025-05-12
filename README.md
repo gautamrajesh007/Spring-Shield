@@ -29,7 +29,7 @@ A secure user management system built with Spring Boot, providing robust authent
 
 - JDK 17 or later  
 - Maven 3.6+  
-- SQL Database (MySQL/PostgreSQL)  
+- PostgreSQL Database
 
 ---
 
