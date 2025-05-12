@@ -37,7 +37,7 @@ A secure user management system built with Spring Boot, providing robust authent
 
 ### 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/SpringShield.git
+git clone https://github.com/gautamrajesh007/SpringShield.git
 cd SpringShield
 ```
 
